@@ -48,14 +48,20 @@ const SpeedDatingWheel = () => {
         const degreesPerItem = 360 / items.length;
         const itemCenterAngle = randomIndex * degreesPerItem + (degreesPerItem / 2);
 
-        // 3. Calculer la rotation finale absolue pour amener cet item en haut
-        // La roue tourne dans le sens horaire, le pointeur est en haut (0°/360°)
-        // On veut que le centre de l'item soit aligné avec le pointeur
+        // 3. Calculer la rotation finale
+        // On part de la position actuelle et on ajoute les tours + ajustement
         const spins = Math.round(8 + Math.random() * 2); // 8-10 tours complets
-        // Position finale : tours complets - angle de l'item (rotation inverse)
-        const finalRotation = rotation + (360 * spins) - itemCenterAngle;
+        // Pour savoir où on doit arriver : on prend la position normalisée de l'item
+        const currentNormalized = rotation % 360;
+        const targetAngle = 360 - itemCenterAngle; // Position cible normalisée (le haut = 0°/360°)
 
-        console.log('Item sélectionné:', randomIndex, 'Angle item:', itemCenterAngle, 'Rotation finale:', finalRotation);
+        // On calcule le delta pour arriver à la cible depuis la position actuelle
+        let delta = targetAngle - currentNormalized;
+        if (delta < 0) delta += 360; // Toujours tourner dans le sens positif
+
+        const finalRotation = rotation + (360 * spins) + delta;
+
+        console.log('Item:', randomIndex, 'Angle item:', itemCenterAngle, 'Current:', rotation, 'Normalized:', currentNormalized, 'Target:', targetAngle, 'Delta:', delta, 'Final:', finalRotation);
 
         setRotation(finalRotation);
 
