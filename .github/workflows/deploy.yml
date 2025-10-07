@@ -35,7 +35,7 @@ jobs:
 
       # Installe les dépendances du projet
       - name: Install dependencies
-        run: npm ci  # Plus rapide et fiable que npm install
+        run: npm i  # Plus rapide et fiable que npm install
 
       # Construit le projet
       - name: Build
